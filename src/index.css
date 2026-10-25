@@ -1,0 +1,223 @@
+@import "tailwindcss";
+
+/* Class-based dark mode: toggle the `.dark` class on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+
+  /* Semantic status colors shared by badges, charts and states */
+  --color-success: #059669;
+  --color-warning: #d97706;
+  --color-danger: #e11d48;
+  --color-info: #0284c7;
+
+  /* Deep purple-black surface scale — optional dark-mode palette.
+     Used for app backgrounds, cards, nested surfaces and soft borders. */
+  --color-navy-950: #08070d;
+  --color-navy-900: #0d0b16;
+  --color-navy-850: #11101c;
+  --color-navy-800: #151322;
+  --color-navy-700: #1f1b31;
+  --color-navy-600: #2b2545;
+
+  /* Accent scale: remap the app's indigo accent to the homepage's violet
+     family (#7C3AED core) so every indigo-* utility across the dashboard
+     becomes electric purple / lavender. */
+  --color-indigo-50: #f5f3ff;
+  --color-indigo-100: #ede9fe;
+  --color-indigo-200: #ddd6fe;
+  --color-indigo-300: #c4b5fd;
+  --color-indigo-400: #a78bfa;
+  --color-indigo-500: #8b5cf6;
+  --color-indigo-600: #7c3aed;
+  --color-indigo-700: #6d28d9;
+  --color-indigo-800: #5b21b6;
+  --color-indigo-900: #4c1d95;
+  --color-indigo-950: #2e1065;
+
+  /* Landing page: gentle float for hero showcase chips */
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+/* Landing page micro-animations (hero panel float, slow ambient glow drift) */
+@theme {
+  --animate-float-soft: float-soft 9s ease-in-out infinite;
+  --animate-glow-drift: glow-drift 18s ease-in-out infinite;
+
+  @keyframes float-soft {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes glow-drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(22px, -16px, 0) scale(1.07);
+    }
+  }
+}
+
+/* Landing page theme-aware color-scheme (light defaults, dark overrides) */
+:root {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    @apply antialiased;
+    scroll-behavior: smooth;
+  }
+
+  /* Global reduced-motion fallback for decorative animations */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Keep anchored sections clear of the sticky marketing navbar. */
+  section[id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  body {
+    @apply bg-slate-50 font-sans text-slate-900 transition-colors duration-300 dark:bg-navy-950 dark:text-slate-100;
+  }
+
+  ::selection {
+    @apply bg-indigo-500/25;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Editorial redesign palette — near-black primary, ivory secondary,   */
+/* violet used strictly as an accent.                                  */
+/* ------------------------------------------------------------------ */
+@theme {
+  --color-ink: #070707;
+  --color-ink-950: #050505;
+  --color-ink-900: #0a0a0a;
+  --color-ink-800: #111111;
+  --color-ink-700: #1a1a1a;
+  --color-ink-600: #262626;
+
+  /* Primary dark surface — deep navy-black used as the premium dark-mode
+     page background (#0b0f19). Cards sit on top as translucent glass. */
+  --color-night: #0b0f19;
+  --color-night-900: #0d1220;
+
+  --color-ivory: #f5f3ef;
+  --color-ivory-700: #e8e5dd;
+  --color-ivory-600: #d8d4c9;
+  --color-ivory-500: #b9b4a6;
+
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+}
+
+/* Editorial animation set: slow float for background elements, soft node
+   pulses, and SVG stroke drawing for charts and network lines. */
+@theme {
+  --animate-float-slow: float-slow 14s ease-in-out infinite;
+  --animate-pulse-dot: pulse-dot 2.6s ease-in-out infinite;
+
+  @keyframes float-slow {
+    0%,
+    100% {
+      transform: translateY(0) translateX(0);
+    }
+    50% {
+      transform: translateY(-14px) translateX(6px);
+    }
+  }
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.4;
+      transform: scale(0.75);
+    }
+  }
+}
+
+/* Signal traveling along an intelligence connection line */
+@theme {
+  --animate-signal-travel: signal-travel 3.4s ease-in-out infinite;
+
+  @keyframes signal-travel {
+    0% {
+      left: -2%;
+      opacity: 0;
+    }
+    12% {
+      opacity: 1;
+    }
+    88% {
+      opacity: 1;
+    }
+    100% {
+      left: 98%;
+      opacity: 0;
+    }
+  }
+}
+
+/* Thin, unobtrusive scrollbars across the app */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(148 163 184 / 0.35) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background: rgb(148 163 184 / 0.35);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgb(148 163 184 / 0.55);
+}
+
+.dark *::-webkit-scrollbar-thumb {
+  background: rgb(44 58 96 / 0.5);
+}
+
+.dark *::-webkit-scrollbar-thumb:hover {
+  background: rgb(62 82 130 / 0.65);
+}
